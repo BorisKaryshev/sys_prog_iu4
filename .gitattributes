@@ -1,3 +1,3 @@
 secretfile filter=./for_fun/git-crypt diff=./for_fun/git-crypt
 *.key filter=./for_fun/git-crypt diff=./for_fun/git-crypt
-secrets/** filter=./for_fun/git-crypt diff=./for_fun/git-crypt
+secretdir/** filter=./for_fun/git-crypt diff=./for_fun/git-crypt
