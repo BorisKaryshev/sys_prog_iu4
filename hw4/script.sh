@@ -1,6 +1,8 @@
 #!/bin/bash
 set -eou pipefail
-set -x
+# set -x
+
+KERNEL_VERSION="6.17.8"
 
 install_dependencies ()
 {
@@ -39,8 +41,6 @@ EOF
 }
 
 install_dependencies
-
-KERNEL_VERSION="6.17.8"
 
 working_dir=$(mktemp -d)
 cd $working_dir
