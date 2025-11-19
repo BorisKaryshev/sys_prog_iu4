@@ -48,10 +48,15 @@ cd $working_dir
 wget "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-$KERNEL_VERSION.tar.xz"
 tar xf "linux-$KERNEL_VERSION.tar.xz" && mv "linux-$KERNEL_VERSION" linux
 cd linux
+cp -v /boot/config-$(uname -r) .config
 
 yes "" | make oldconfig || true
 scripts/config --disable SYSTEM_TRUSTED_KEYS
 scripts/config --disable SYSTEM_REVOCATION_KEYS
 yes "" | make oldconfig || true
 
+make menuconfig
 make -j $(nproc)
+sudo make modules_install
+sudo make install
+sudo reboot
