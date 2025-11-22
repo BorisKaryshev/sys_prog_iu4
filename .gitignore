@@ -1,0 +1,7 @@
+*/build
+build
+**/.cache
+sync.sh
+hw2/logs/
+hw2/output/
+hw4/from_fedor.sh

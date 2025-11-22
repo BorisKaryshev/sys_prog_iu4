@@ -2,7 +2,7 @@
 set -eou pipefail
 # set -x
 
-KERNEL_VERSION="6.17.8"
+KERNEL_VERSION="6.17.3"
 
 install_dependencies ()
 {
@@ -42,7 +42,9 @@ EOF
 
 install_dependencies
 
-working_dir=$(mktemp -d)
+working_dir=/home/bkaryshev/kernel #$(mktemp -d)
+mkdir -p $working_dir
+rm -rf $working_dir/*
 cd $working_dir
 
 wget "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-$KERNEL_VERSION.tar.xz"
@@ -55,8 +57,11 @@ scripts/config --disable SYSTEM_TRUSTED_KEYS
 scripts/config --disable SYSTEM_REVOCATION_KEYS
 yes "" | make oldconfig || true
 
-make menuconfig
 make -j $(nproc)
 sudo make modules_install
 sudo make install
+
+sudo update-initramfs -c -k "$KERNEL_VERSION" 
+sudo update-grub
+
 sudo reboot
