@@ -44,6 +44,11 @@ add_executable(${project_name} ${PROJECT_SOURCE_DIR}/src/main.cpp)
 add_dependencies(${project_name} format)
 target_link_libraries(${project_name} ${project_name}_lib)
 
+if(ENABLE_MEMORY_SANITIZERS)
+    add_compile_options(-fsanitize=address -fsanitize=leak -fsanitize=undefined)
+    add_link_options(-fsanitize=address -fsanitize=leak -fsanitize=undefined)
+endif()
+
 add_custom_target(
     exe
     DEPENDS ${project_name}

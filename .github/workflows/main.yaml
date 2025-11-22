@@ -1,6 +1,12 @@
 name: Main
+
 run-name: ${{ github.actor }} building code and running tests
+
+env:
+  BUILD_TYPE: Debug
+
 on: [push]
+
 jobs:
   MainTesting:
     runs-on: ubuntu-latest
@@ -12,4 +18,17 @@ jobs:
       - run: |
           ls ${{ github.workspace }}
       - name: Build and run tasks
-        run: ./scripts/run_tests.sh
+        run: ./scripts/run_tests.sh '-DBUILD_MODE=DEBUG'
+
+  TestingWithSanitizers:
+    runs-on: ubuntu-latest
+    needs: [ MainTesting ]
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v5
+      - name: Initialize and update submodules
+        run: git submodule update --init --recursive
+      - run: |
+          ls ${{ github.workspace }}
+      - name: Build and run tasks
+        run: ./scripts/run_tests.sh '-DENABLE_MEMORY_SANITIZERS=ON -DBUILD_MODE=DEBUG'
