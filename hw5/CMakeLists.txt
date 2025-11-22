@@ -30,7 +30,9 @@ add_custom_target(
     ${includes} ${source} ${PROJECT_SOURCE_DIR}/src/main.cpp
 )
 
-set(libs )
+find_package(Boost REQUIRED)
+find_package(Boost REQUIRED COMPONENTS program_options)
+set(libs Boost::program_options)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/libs/googletest)
 
