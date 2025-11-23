@@ -8,6 +8,10 @@ custom_stack_t create_stack(void) {
     return create_stack_with_capacity(0);
 }
 
+int is_stack_empty(custom_stack_t* stack) {
+    return (stack->data == NULL);
+}
+
 custom_stack_t create_stack_with_capacity(uint64_t starting_capacity) {
     custom_stack_t result;
     if(starting_capacity > 0) {
@@ -25,7 +29,7 @@ void increase_stack_size(custom_stack_t* stack, uint64_t new_capacity) {
 
     char* new_data = malloc(new_capacity);
     if(stack->data) {
-        memcpy(stack->data, new_data, stack->capacity);
+        memcpy(new_data, stack->data, stack->capacity);
         free(stack->data);
     }
     stack->data = new_data;
@@ -33,15 +37,19 @@ void increase_stack_size(custom_stack_t* stack, uint64_t new_capacity) {
 }
 
 void push_stack(custom_stack_t* stack, char* data, uint64_t data_size) {
+    if(is_stack_empty(stack)) {
+        increase_stack_size(stack, data_size);
+    }
+
     if(stack->capacity <= stack->size + data_size) {
         increase_stack_size(stack, stack->capacity * 2);
     }
-    memcpy(data, stack->data + stack->size, data_size);
+    memcpy(stack->data + stack->size, data, data_size);
     stack->size += data_size;
 }
 
 void pop_stack(custom_stack_t* stack, char* data, uint64_t data_size) {
-    memcpy(stack->data + stack->size, data, data_size);
+    memcpy(data, stack->data + stack->size - data_size, data_size);
     stack->size -= data_size;
 }
 
