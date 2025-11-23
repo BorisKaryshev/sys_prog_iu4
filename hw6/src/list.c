@@ -19,25 +19,24 @@ void push_back(custom_list_t* list, const char* data, uint64_t size) {
     new_node->prev_node = list->last_node;
     new_node->next_node = NULL;
 
-    if(list->last_node) {
+    if (list->last_node) {
         list->last_node->next_node = new_node;
     }
     list->last_node = new_node;
 
-    if(list->first_node == NULL) {
+    if (list->first_node == NULL) {
         list->first_node = list->last_node;
     }
 }
 
 void pop_back(custom_list_t* list, char* data, uint64_t size) {
     custom_list_node_t* node = list->last_node;
-    if(node == NULL) {
+    if (node == NULL) {
         return;
     }
     memcpy(data, node->data, size);
 
-
-    if(list->first_node == list->last_node) {
+    if (list->first_node == list->last_node) {
         list->first_node = NULL;
         list->last_node = NULL;
     } else {
@@ -47,8 +46,8 @@ void pop_back(custom_list_t* list, char* data, uint64_t size) {
 }
 
 custom_list_node_t* find(custom_list_t* list, list_find_eq_comparator comarator, char* data) {
-    for(custom_list_node_t* node = list->first_node; node != NULL; node = node->next_node) {
-        if(comarator(node->data, data)) {
+    for (custom_list_node_t* node = list->first_node; node != NULL; node = node->next_node) {
+        if (comarator(node->data, data)) {
             return node;
         }
     }
@@ -56,17 +55,17 @@ custom_list_node_t* find(custom_list_t* list, list_find_eq_comparator comarator,
 }
 
 void delete_node(custom_list_node_t* node) {
-    if(node == NULL) {
+    if (node == NULL) {
         return;
     }
 
     custom_list_node_t* prev_node = node->prev_node;
     custom_list_node_t* next_node = node->next_node;
 
-    if(prev_node) {
+    if (prev_node) {
         prev_node->next_node = next_node;
     }
-    if(next_node) {
+    if (next_node) {
         next_node->prev_node = prev_node;
     }
 
@@ -75,7 +74,7 @@ void delete_node(custom_list_node_t* node) {
 }
 
 void free_list(custom_list_t* list) {
-    for(custom_list_node_t* node = list->first_node; node != NULL;) {
+    for (custom_list_node_t* node = list->first_node; node != NULL;) {
         free(node->data);
         custom_list_node_t* tmp = node->next_node;
         free(node);

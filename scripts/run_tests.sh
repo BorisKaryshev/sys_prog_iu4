@@ -6,18 +6,28 @@ run_test() {
     work_dir="$(realpath $1)"
     cd "$work_dir"
 
-    if [ -e $2 ]; then
-        cmake -S . -B build
-    else
-        cmake -S . -B build "$2"
-    fi
+    cmake -S . -B build -DBUILD_MODE=DEBUG
     cmake --build build -t test -j 4
     ./build/test
-
     cd -
 }
 
-opts=${1:-""}
+run_valgrind() {
+    work_dir="$(realpath $1)"
+    cd "$work_dir"
 
-run_test hw5 "$opts"
-run_test hw6 "$opts"
+    cmake -S . -B build -DBUILD_MODE=DEBUG
+    cmake --build build -t test -j 4
+    valgrind --error-exitcode=1  --leak-check=full --show-leak-kinds=all ./build/test
+    echo "Valgrind res is $?"
+    cd -
+}
+
+# ulimit -n 1048576
+ulimit -n 65535
+
+run_test "hw5"
+run_valgrind "hw5"
+
+run_test "hw6"
+run_valgrind "hw6"

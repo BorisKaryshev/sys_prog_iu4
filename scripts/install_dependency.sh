@@ -3,4 +3,4 @@ set -eou pipefail
 set -x
 
 apt update
-apt install -y cmake g++ git libboost-all-dev
+apt install -y valgrind cmake g++ git libboost-all-dev

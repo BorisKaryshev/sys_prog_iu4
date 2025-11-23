@@ -1,8 +1,8 @@
-#include <stddef.h>
-#include <stack.h>
-#include <stdlib.h>
-#include <memory.h>
 #include <assert.h>
+#include <memory.h>
+#include <stack.h>
+#include <stddef.h>
+#include <stdlib.h>
 
 custom_stack_t create_stack(void) {
     return create_stack_with_capacity(0);
@@ -14,7 +14,7 @@ int is_stack_empty(custom_stack_t* stack) {
 
 custom_stack_t create_stack_with_capacity(uint64_t starting_capacity) {
     custom_stack_t result;
-    if(starting_capacity > 0) {
+    if (starting_capacity > 0) {
         result.data = malloc(starting_capacity);
     } else {
         result.data = NULL;
@@ -28,7 +28,7 @@ void increase_stack_size(custom_stack_t* stack, uint64_t new_capacity) {
     assert(new_capacity > stack->capacity);
 
     char* new_data = malloc(new_capacity);
-    if(stack->data) {
+    if (stack->data) {
         memcpy(new_data, stack->data, stack->capacity);
         free(stack->data);
     }
@@ -37,11 +37,11 @@ void increase_stack_size(custom_stack_t* stack, uint64_t new_capacity) {
 }
 
 void push_stack(custom_stack_t* stack, char* data, uint64_t data_size) {
-    if(is_stack_empty(stack)) {
+    if (is_stack_empty(stack)) {
         increase_stack_size(stack, data_size);
     }
 
-    if(stack->capacity <= stack->size + data_size) {
+    if (stack->capacity <= stack->size + data_size) {
         increase_stack_size(stack, stack->capacity * 2);
     }
     memcpy(stack->data + stack->size, data, data_size);
