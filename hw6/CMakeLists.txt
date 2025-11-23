@@ -14,9 +14,11 @@ project(${project_name})
 set(source
     ${PROJECT_SOURCE_DIR}/src/main_module.c
     ${PROJECT_SOURCE_DIR}/src/stack.c
+    ${PROJECT_SOURCE_DIR}/src/list.c
 )
 set(test_source
     ${PROJECT_SOURCE_DIR}/test/src/stack.cpp
+    ${PROJECT_SOURCE_DIR}/test/src/list.cpp
 )
 
 set(
@@ -78,6 +80,7 @@ add_executable(test ${test_source})
 target_link_libraries(test gtest_main)
 target_link_libraries(test ${project_name}_lib)
 target_link_libraries(test ${libs})
+target_compile_options(test PRIVATE  -g3 -O0)
 
 target_compile_options(${project_name} PRIVATE -Wall -Wextra -Werror -Wpedantic -pthread)
 target_compile_options(${project_name}_lib PRIVATE  -Wall -Wextra -Werror -Wpedantic -pthread)
