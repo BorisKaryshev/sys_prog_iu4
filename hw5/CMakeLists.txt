@@ -12,14 +12,19 @@ endif()
 project(${project_name})
 
 set(source
-    ${PROJECT_SOURCE_DIR}/src/sample.cpp
+    ${PROJECT_SOURCE_DIR}/src/main_module.c
 )
 set(test_source
     ${PROJECT_SOURCE_DIR}/test/src/sample.cpp
 )
 
+set(
+    include_locations
+    ${PROJECT_SOURCE_DIR}/include
+)
+
 set(includes
-    ${PROJECT_SOURCE_DIR}/include/sample.hpp
+    ${PROJECT_SOURCE_DIR}/include/main.h
 )
 
 add_custom_target(
@@ -31,8 +36,15 @@ add_custom_target(
 )
 
 find_package(Boost REQUIRED)
-find_package(Boost REQUIRED COMPONENTS program_options)
-set(libs Boost::program_options)
+find_package(
+    Boost
+    REQUIRED COMPONENTS
+    program_options
+    log
+    log_setup
+    thread
+)
+set(libs Boost::program_options Boost::log Boost::log_setup Boost::thread)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/libs/googletest)
 
