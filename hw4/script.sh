@@ -42,7 +42,7 @@ EOF
 
 install_dependencies
 
-working_dir=/home/bkaryshev/kernel #$(mktemp -d)
+working_dir="$(pwd)/kernel" #$(mktemp -d)
 mkdir -p $working_dir
 rm -rf $working_dir/*
 cd $working_dir
@@ -61,7 +61,7 @@ make -j $(nproc)
 sudo make modules_install
 sudo make install
 
-sudo update-initramfs -c -k "$KERNEL_VERSION" 
+sudo update-initramfs -c -k "$KERNEL_VERSION"
 sudo update-grub
 
 sudo reboot
