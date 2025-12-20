@@ -4,10 +4,11 @@
 
 #include <cstdint>
 #include <cstring>
-#include <vector>
 
-static void eqbuf(const char* a, const char* b, uint64_t n) {
-    ASSERT_EQ(0, std::memcmp(a, b, (size_t)n));
+namespace {
+void free_data(void* ptr) {
+    free(ptr);
+}
 }
 
 TEST(Stack, CreateDefault) {
@@ -17,7 +18,7 @@ TEST(Stack, CreateDefault) {
     ASSERT_GE(s.capacity, 0);
     ASSERT_TRUE(s.capacity == 0 || s.data != nullptr);
 
-    free_stack(&s);
+    free_stack(&s, free_data);
 }
 
 TEST(Stack, CreateWithCapacity) {
@@ -27,7 +28,7 @@ TEST(Stack, CreateWithCapacity) {
     ASSERT_EQ(s.size, 0);
     ASSERT_NE(s.data, nullptr);
 
-    free_stack(&s);
+    free_stack(&s, free_data);
 }
 
 TEST(Stack, PushPopSingle) {
@@ -42,7 +43,7 @@ TEST(Stack, PushPopSingle) {
     ASSERT_EQ(s.size, 0);
     ASSERT_EQ(res, var);
 
-    free_stack(&s);
+    free_stack(&s, free_data);
 }
 
 TEST(Stack, PushPopMultipleBlocks) {
@@ -64,7 +65,7 @@ TEST(Stack, PushPopMultipleBlocks) {
     pop_stack(&s, reinterpret_cast<char*>(&a_from_stack), sizeof(a));
     ASSERT_EQ(a_from_stack, a);
     ASSERT_EQ(s.size, 0);
-    free_stack(&s);
+    free_stack(&s, free_data);
 }
 
 TEST(Stack, AutoGrow) {
@@ -79,7 +80,7 @@ TEST(Stack, AutoGrow) {
         ASSERT_GT(s.capacity, size);
     }
 
-    free_stack(&s);
+    free_stack(&s, free_data);
 }
 
 
@@ -87,7 +88,7 @@ TEST(Stack, Free) {
     custom_stack_t s = create_stack();
     int data = 1234578;
     push_stack(&s, reinterpret_cast<char*>(&data), sizeof(data));
-    free_stack(&s);
+    free_stack(&s, free_data);
 
     ASSERT_EQ(s.data, nullptr);
     ASSERT_EQ(s.capacity, 0);

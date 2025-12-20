@@ -3,6 +3,10 @@
 #include <memory.h>
 #include <stdlib.h>
 
+int is_list_empty(custom_list_t* list) {
+    return list->first_node == NULL;
+}
+
 custom_list_t create_list(void) {
     custom_list_t res;
     res.first_node = NULL;
@@ -11,7 +15,7 @@ custom_list_t create_list(void) {
     return res;
 }
 
-void push_back(custom_list_t* list, const char* data, uint64_t size) {
+void push_back_list(custom_list_t* list, const char* data, uint64_t size) {
     char* new_data = malloc(size);
     memcpy(new_data, data, size);
     custom_list_node_t* new_node = malloc(sizeof(custom_list_node_t));
@@ -29,7 +33,7 @@ void push_back(custom_list_t* list, const char* data, uint64_t size) {
     }
 }
 
-void pop_back(custom_list_t* list, char* data, uint64_t size) {
+void pop_back_list(custom_list_t* list, char* data, uint64_t size) {
     custom_list_node_t* node = list->last_node;
     if (node == NULL) {
         return;
@@ -73,9 +77,9 @@ void delete_node(custom_list_node_t* node) {
     free(node);
 }
 
-void free_list(custom_list_t* list) {
+void free_list(custom_list_t* list, free_list_data data_free) {
     for (custom_list_node_t* node = list->first_node; node != NULL;) {
-        free(node->data);
+        data_free(node->data);
         custom_list_node_t* tmp = node->next_node;
         free(node);
         node = tmp;

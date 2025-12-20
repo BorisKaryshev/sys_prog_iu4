@@ -21,14 +21,17 @@ typedef struct {
 
 custom_list_t create_list(void);
 
-void push_back(custom_list_t* list, const char* data, uint64_t size);
-void pop_back(custom_list_t* list, char* data, uint64_t size);
+void push_back_list(custom_list_t* list, const char* data, uint64_t size);
+void pop_back_list(custom_list_t* list, char* data, uint64_t size);
 
 typedef int(*list_find_eq_comparator)(char*, char*);
 custom_list_node_t* find(custom_list_t* list, list_find_eq_comparator comarator, char* comparator_data);
 void delete_node(custom_list_node_t* node);
 
-void free_list(custom_list_t* list);
+int is_list_empty(custom_list_t* list);
+
+typedef void(*free_list_data)(void*);
+void free_list(custom_list_t* list, free_list_data data_free);
 
 #ifdef __cplusplus
 }
