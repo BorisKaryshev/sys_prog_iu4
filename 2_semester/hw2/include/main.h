@@ -15,7 +15,7 @@ typedef enum {
     ERROR
 } return_code_t_e;
 
-return_code_t_e run(options_t);
+return_code_t_e run(void);
 
 #ifdef __cplusplus
 }

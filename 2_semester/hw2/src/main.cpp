@@ -71,9 +71,9 @@ int main(int argc, char** argv) {
     }
 
     // options_t opts = {.sleep_duration = 0};
-    options_t opts = {.sleep_duration = args["duration"].as<std::uint32_t>()};
+    // options_t opts = {.sleep_duration = args["duration"].as<std::uint32_t>()};
 
-    return_code_t_e res = run(opts);
+    return_code_t_e res = run();
 
     switch (res) {
         case OK:
