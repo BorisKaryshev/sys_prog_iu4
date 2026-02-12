@@ -26,8 +26,8 @@ run_valgrind() {
 # ulimit -n 1048576
 ulimit -n 65535
 
-run_test "hw5"
-run_valgrind "hw5"
+run_test "1_semester/hw5"
+run_valgrind "1_semester/hw5"
 
-run_test "hw6"
-run_valgrind "hw6"
+run_test "1_semester/hw6"
+run_valgrind "1_semester/hw6"

@@ -2,5 +2,5 @@
 set -eou pipefail
 set -x
 
-rm -rf hw5/build
-rm -rf hw6/build
+rm -rf 1_semester/hw5/build
+rm -rf 1_semester/hw6/build
