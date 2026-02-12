@@ -15,6 +15,7 @@
 #include <boost/program_options/value_semantic.hpp>
 #include <boost/program_options/variables_map.hpp>
 
+#include <filesystem>
 #include <iostream>
 
 namespace po = boost::program_options;
@@ -73,7 +74,8 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    std::string path = args["path"].as<std::string>();
+    std::filesystem::path path = args["path"].as<std::string>();
+    path = std::filesystem::absolute(path);
 
     operation_t_e operation = DEFAULT_OPERATION;
     if (args["create"].as<bool>()) {
@@ -83,6 +85,7 @@ int main(int argc, char** argv) {
         BOOST_LOG_TRIVIAL(info) << "Running delete file command";
         operation = DELETE_FILE;
     }
+    BOOST_LOG_TRIVIAL(info) << "Got path: " << path;
     return_code_t_e res = run(operation, path.c_str());
 
     switch (res) {

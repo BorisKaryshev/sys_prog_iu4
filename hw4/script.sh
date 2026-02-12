@@ -36,8 +36,10 @@ EOF
 
     packages="$(echo $packages | xargs echo)"
 
-    sudo apt update
-    sudo apt install -y $packages
+    apt update
+    apt install -y $packages
+    # sudo apt update
+    # sudo apt install -y $packages
 }
 
 install_dependencies
@@ -58,6 +60,8 @@ scripts/config --disable SYSTEM_REVOCATION_KEYS
 yes "" | make oldconfig || true
 
 make -j $(nproc)
+
+exit 0
 sudo make modules_install
 sudo make install
 

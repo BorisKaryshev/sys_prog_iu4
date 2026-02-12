@@ -9,7 +9,7 @@ custom_stack_t create_stack(void) {
 }
 
 int is_stack_empty(const custom_stack_t* stack) {
-    return (stack->data == NULL);
+    return (stack->data == NULL) || (stack->size == 0);
 }
 
 custom_stack_t create_stack_with_capacity(uint64_t starting_capacity) {
@@ -37,12 +37,13 @@ void increase_stack_size(custom_stack_t* stack, uint64_t new_capacity) {
 }
 
 void push_stack(custom_stack_t* stack, const char* data, uint64_t data_size) {
-    if (is_stack_empty(stack)) {
-        increase_stack_size(stack, data_size);
+    if (stack->data == NULL) {
+        increase_stack_size(stack, data_size * 10);
     }
 
     if (stack->capacity <= stack->size + data_size) {
-        increase_stack_size(stack, stack->capacity * 2);
+        uint64_t new_capacity = stack->capacity * 2;
+        increase_stack_size(stack, new_capacity);
     }
     memcpy(stack->data + stack->size, data, data_size);
     stack->size += data_size;

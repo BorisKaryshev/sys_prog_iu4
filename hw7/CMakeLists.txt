@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.9)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set(project_name system_programming_hw5)
+set(project_name system_programming_hw7)
 
 if(NOT DEFINED BUILD_MODE)
     set(BUILD_MODE "DEBUG")
@@ -13,16 +13,9 @@ project(${project_name})
 
 set(source
     ${PROJECT_SOURCE_DIR}/src/main_module.c
-    ${PROJECT_SOURCE_DIR}/src/string_utils.c
-    ${PROJECT_SOURCE_DIR}/src/stack.c
-    ${PROJECT_SOURCE_DIR}/src/pair.c
-    ${PROJECT_SOURCE_DIR}/src/serialize.c
-    ${PROJECT_SOURCE_DIR}/src/list.c
 )
 set(test_source
-    ${PROJECT_SOURCE_DIR}/test/src/stack.cpp
-    ${PROJECT_SOURCE_DIR}/test/src/list.cpp
-    ${PROJECT_SOURCE_DIR}/test/src/pair.cpp
+    ${PROJECT_SOURCE_DIR}/test/src/sample.cpp
 )
 
 set(
@@ -32,7 +25,6 @@ set(
 
 set(includes
     ${PROJECT_SOURCE_DIR}/include/main.h
-    ${PROJECT_SOURCE_DIR}/include/stack.h
 )
 
 add_custom_target(
@@ -52,7 +44,8 @@ find_package(
     log_setup
     thread
 )
-set(libs Boost::program_options Boost::log Boost::log_setup Boost::thread)
+find_package(OpenSSL REQUIRED)
+set(libs Boost::program_options Boost::log Boost::log_setup Boost::thread OpenSSL::Crypto)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/libs/googletest)
 

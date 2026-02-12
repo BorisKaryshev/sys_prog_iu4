@@ -22,7 +22,7 @@ return_code_t_e run_delete(const char* path) {
         return DELETE_NOT_FOUND;
     }
 
-    if (!remove(path)) {
+    if (remove(path)) {
         return OTHER_ERROR;
     }
     return OK;

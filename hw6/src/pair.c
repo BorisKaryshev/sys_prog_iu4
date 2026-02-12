@@ -14,8 +14,8 @@ void free_pair_of_str(pair_of_str_t* pair) {
 
 custom_string_t serialize_pair_of_str(pair_of_str_t* pair) {
     uint64_t pair_total_size = 0;
-    uint64_t pair_first_size = strlen(pair->first) + 1;   // str + \0
-    uint64_t pair_second_size = strlen(pair->second) + 1; // str + \0
+    uint64_t pair_first_size = strlen(pair->first) + 1;    // str + \0
+    uint64_t pair_second_size = strlen(pair->second) + 1;  // str + \0
     pair_total_size += sizeof(uint64_t);
     pair_total_size += pair_first_size;
     pair_total_size += sizeof(uint64_t);
