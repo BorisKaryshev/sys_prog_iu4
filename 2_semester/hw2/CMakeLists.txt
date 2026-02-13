@@ -14,6 +14,8 @@ project(${project_name})
 set(source
     ${PROJECT_SOURCE_DIR}/src/main_module.c
     ${PROJECT_SOURCE_DIR}/src/string_util.c
+    ${PROJECT_SOURCE_DIR}/src/unnamed_pipes.c
+    ${PROJECT_SOURCE_DIR}/src/named_pipe.c
 )
 set(test_source
     ${PROJECT_SOURCE_DIR}/test/src/sample.cpp
@@ -27,6 +29,8 @@ set(
 set(includes
     ${PROJECT_SOURCE_DIR}/include/main.h
     ${PROJECT_SOURCE_DIR}/include/string_util.h
+    ${PROJECT_SOURCE_DIR}/include/unnamed_pipe.h
+    ${PROJECT_SOURCE_DIR}/include/named_pipe.h
 )
 
 add_custom_target(

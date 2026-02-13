@@ -7,7 +7,9 @@ extern "C" {
 #include <stdint.h>
 
 typedef struct {
-    uint32_t sleep_duration;
+    const char* input_pipe_path;
+    const char* output_pipe_path;
+    uint32_t timeout_s;
 } options_t;
 
 typedef enum {
@@ -15,7 +17,7 @@ typedef enum {
     ERROR
 } return_code_t_e;
 
-return_code_t_e run(void);
+return_code_t_e run(options_t);
 
 #ifdef __cplusplus
 }
