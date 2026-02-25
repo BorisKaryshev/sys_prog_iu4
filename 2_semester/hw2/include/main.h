@@ -9,7 +9,6 @@ extern "C" {
 typedef struct {
     const char* input_pipe_path;
     const char* output_pipe_path;
-    uint32_t timeout_s;
 } options_t;
 
 typedef enum {

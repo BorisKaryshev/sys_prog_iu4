@@ -30,18 +30,17 @@ std::pair<bool, po::variables_map> parse_args(int argc, char** argv) {
     // clang-format off
     desc.add_options()
         ("help,h", po::bool_switch()->default_value(false), "Show help")
-        ("input_path,i", po::value<std::string>(), "Path for input pipe")
-        ("output_path,o", po::value<std::string>(), "Path for output pipe")
-        ;
+        ("verbose,v", po::bool_switch()->default_value(false), "Verbose output")
+        ("skip_crypto,c", po::bool_switch()->default_value(false), "Should pass data as plain text")
+        ("protocol,p", po::value<required_socket_protocol_t_e>()->default_value(TCP), "Protocol. One of: tcp (default), udp, icmp")
+        ("crypto_key,k", po::value<std::string>()->default_value("crypto_key_and_iv.bin"))
+        ("socket_path,s", po::value<std::string>()->default_value("test.sock"));
     // clang-format on
 
-    po::positional_options_description pos;
-    pos.add("path", 1);
-
     po::variables_map map;
-    po::store(po::command_line_parser(argc, argv).options(desc).positional(pos).run(), map);
+    po::store(po::command_line_parser(argc, argv).options(desc).run(), map);
 
-    bool is_valid = (map["help"].as<bool>() || (!(map.contains("input_path") == map.contains("output_path"))));
+    bool is_valid = (map["help"].as<bool>());
 
     if (is_valid) {
         std::cout << "Usage: " << argv[0] << " [options]\n\n";
@@ -76,15 +75,15 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    std::filesystem::path input_path, output_path;
-    options_t opts = {.input_pipe_path = NULL, .output_pipe_path = NULL};
-    if (args.contains("input_path") && args.contains("output_path")) {
-        input_path = std::filesystem::absolute(args["input_path"].as<std::string>());
-        opts.input_pipe_path = input_path.c_str();
+    std::filesystem::path socket_path = std::filesystem::absolute(args["socket_path"].as<std::string>());
+    std::filesystem::path crypto_key_path = std::filesystem::absolute(args["crypto_key"].as<std::string>());
+    options_t opts = {.socket_path = socket_path.c_str(),
+                      .crypto_key_and_iv_path = crypto_key_path.c_str(),
+                      .protocol = args["protocol"].as<required_socket_protocol_t_e>(),
+                      .verbose = args["verbose"].as<bool>(),
+                      .skip_crypto = args["skip_crypto"].as<bool>()};
 
-        output_path = std::filesystem::absolute(args["output_path"].as<std::string>());
-        opts.output_pipe_path = output_path.c_str();
-    }
+    BOOST_LOG_TRIVIAL(info) << "Got protocol " << opts.protocol;
 
     return_code_t_e res = run(opts);
 
