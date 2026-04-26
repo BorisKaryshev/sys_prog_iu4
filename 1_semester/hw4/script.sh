@@ -1,8 +1,8 @@
 #!/bin/bash
 set -eou pipefail
-# set -x
+set -x
 
-KERNEL_VERSION="6.17.3"
+KERNEL_VERSION="6.19.8"
 
 install_dependencies ()
 {

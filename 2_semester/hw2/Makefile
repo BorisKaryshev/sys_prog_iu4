@@ -1,7 +1,9 @@
-MAKEFLAGS += --silent
+obj-m += helloworld_lkm.o
+
+KDIR ?= /lib/modules/$(shell uname -r)/build
 
 all:
-	cmake -S . -B build && cmake --build build -t exe -j 4
-	./build/exe
+	make -C $(KDIR) M=$(PWD) modules
 
-.PHONY: all
+clean:
+	make -C $(KDIR) M=$(PWD) clean

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import sys
 
-PROC_FILE = "/proc/kwallet"
+PROC_FILE = str(sys.argv[1])
 
 
 def cmd(line):
